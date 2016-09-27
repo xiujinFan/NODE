@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<input type="text" ng-model="name"/>
+{{name?name:'zhpx'}}
+<div ng-cloak>
+    {{name}}
+</div>
+
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    //{{}}表达式只能使用三元表达式 js默认放底部
+    //默认表达式会造成页面的闪烁 因为angular未加载完导致的页面闪烁
+    //通过ng-bind指令 可以绑定单一的数据避免闪烁 必须加载标签元素上
+    //ng-bind-template绑定多个
+    //ng-cloak  防止闪烁  实现原理：先将angular隐藏 当angular加载完成后再加载
+
+    //此时 所有数据都绑定在了根作用域下
+
+</script>
+</body>
+</html>

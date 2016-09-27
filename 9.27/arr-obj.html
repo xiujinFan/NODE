@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="appModule">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<!--要循环谁 就要写在谁上面-->
+<!--<div ng-controller="myCtrl">
+    <ul>
+        <li ng-repeat="value in arrs track by $index">
+            {{value}}{{$index}}
+        </li>
+
+    </ul>
+
+</div>-->
+<div ng-controller="myCtrl">
+    <ul>
+<!--把父亲的index保留下来-->
+        <li ng-repeat="value in phones track by $index" ng-init="parent=$index">
+           {{value.name}}
+            <ul>
+                <li ng-repeat="t in value.type track by $index">
+                    {{t}}{{parent}}
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+
+</div>
+<div ng-controller="myCtrl">
+    <li ng-repeat="(key,o) in obj">
+        {{key}}:{{o}}
+    </li>
+</div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    app.controller('myCtrl',function($scope){
+        $scope.arrs=['iphone','snaxing','xiaomi'];
+        $scope.phones=[{name:'苹果',type:['白色','金色']},{name:'小米',type:['黑色','白色']},{name:'华为',type:['蓝色','米色']}]
+        $scope.obj={
+            name:'zfpx',
+            age:'9',
+            address:'北京'
+        }
+    })
+</script>
+</body>
+</html>
