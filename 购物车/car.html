@@ -5,26 +5,29 @@
     <title></title>
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css"/>
 </head>
-<body>
+<body ng-controller="carCtrl">
 <table class="table table-bordered">
     <tr>
-        <td><input type="checkbox"/>全选</td>
+        <td><input type="checkbox" ng-model="selectAll" ng-click="selectOn()"/>全选</td>
         <td>商品</td>
         <td>数量</td>
         <td>单价</td>
         <td>小计</td>
         <td>操作 </td>
     </tr>
-    <tr>
-        <td><input type="checkbox"/></td>
-        <td></td>
-        <td><button>-</button>
-            <input type="text"/>
+    <tr ng-repeat="product in products">
+        <td><input type="checkbox" ng-model="product.selected" ng-click="selectOne()"/></td>
+        <td>{{product.name}}</td>
+        <td><button ng-click="product.count=product.count-1" ng-disabled="product.count<=1">-</button>
+            <input type="text" ng-model="product.count"/>
             <button>+</button>
         </td>
-        <td>12</td>
-        <td>24</td>
-        <td><button class="btn btn-danger">删除</button></td>
+        <td>{{product.price}}</td>
+        <td>{{product.price*product.count}}</td>
+        <td><button class="btn btn-danger" ng-click="del(product)">删除</button></td>
+    </tr>
+    <tr>
+        <td colspan="6">总价{{total()}}</td>
     </tr>
 </table>
 <script src="../../node_modules/angular/angular.js"></script>
@@ -32,12 +35,39 @@
     var app=angular.module('appModule',[]);
     app.controller('carCtrl',function($scope){
         $scope.products=[
-            {name:'西部数据',price:22,count:1},
-            {name:'WD',price:44,count:1},
-            {name:'小米',price:44,count:1},
-            {name:'大米',price:22,count:1}
-        ]
-
+            {name:'西部数据',price:22,count:1,selected:true},
+            {name:'WD',price:44,count:1,selected:true},
+            {name:'小米',price:44,count:1,selected:true},
+            {name:'大米',price:22,count:1,selected:true}
+        ];
+        $scope.del=function(product){
+            $scope.products= $scope.products.filter(function(item){
+                return product!=item;
+            })
+        };
+       $scope.total=function(){
+           var sum=0;
+           $scope.products.forEach(function(product){
+               sum+=product.price*product.count;
+           });
+           return sum;
+       };
+        $scope.selectOn=function(){
+            //都根据selectAll来写
+            $scope.products.forEach(function(product){
+                product.selected=$scope.selectAll;
+            });
+        };
+        function s(){
+            //判断是否都选中
+            var flag=true;
+            $scope.products.forEach(function(product){
+                if(!product.selected)flag=false;
+            });
+            $scope.selectAll=flag;
+        }
+        s();
+        $scope.selectOne=s;
     })
 </script>
 </body>
